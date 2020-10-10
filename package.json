@@ -1,0 +1,22 @@
+{
+  "name": "bypass-paywalls-chrome",
+  "version": "1.0.0",
+  "description": "A fork of the original paywall bypass utility",
+  "main": "src/js/contentScript.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rbseaver/bypass-paywalls-chrome.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rbseaver/bypass-paywalls-chrome/issues"
+  },
+  "homepage": "https://github.com/rbseaver/bypass-paywalls-chrome#readme",
+  "devDependencies": {
+    "jest": "^26.5.2"
+  }
+}
