@@ -8,7 +8,9 @@ if (matchDomain('elmercurio.com')) {
       const paywall = document.querySelector('#modal_limit_articulos');
       const body = document.querySelector('body');
       removeDOMElement(paywall);
-      if (body.hasAttribute('class')) { body.removeAttribute('class'); }
+      if (body.hasAttribute('class')) {
+        body.removeAttribute('class');
+      }
     });
   }
 } else if (matchDomain('estadao.com.br')) {
@@ -22,14 +24,21 @@ if (matchDomain('elmercurio.com')) {
 } else if (matchDomain('rep.repubblica.it')) {
   if (window.location.href.includes('/pwa/')) {
     setTimeout(function () {
-      window.location.href = window.location.href.replace('/pwa/', '/ws/detail/');
+      window.location.href = window.location.href.replace(
+        '/pwa/',
+        '/ws/detail/'
+      );
     }, 400);
   }
   if (window.location.href.includes('/ws/detail/')) {
-    const paywall = document.querySelector('.paywall[subscriptions-section="content"]');
+    const paywall = document.querySelector(
+      '.paywall[subscriptions-section="content"]'
+    );
     if (paywall) {
       paywall.removeAttribute('subscriptions-section');
-      const preview = document.querySelector('div[subscriptions-section="content-not-granted"]');
+      const preview = document.querySelector(
+        'div[subscriptions-section="content-not-granted"]'
+      );
       if (preview) {
         preview.remove();
       }
@@ -37,13 +46,19 @@ if (matchDomain('elmercurio.com')) {
   }
 } else if (matchDomain('americanbanker.com')) {
   const paywall = document.getElementsByClassName('embargo-content')[0];
-  if (paywall) { paywall.classList.remove('embargo-content'); }
+  if (paywall) {
+    paywall.classList.remove('embargo-content');
+  }
 } else if (matchDomain('telegraaf.nl')) {
   if (window.location.href.startsWith('https://www.telegraaf.nl/error?ref=/')) {
-    window.location.href = window.location.href.split('&')[0].replace('error?ref=/', '');
+    window.location.href = window.location.href
+      .split('&')[0]
+      .replace('error?ref=/', '');
   }
   const articleWrapper = document.querySelector('.ArticlePageWrapper__uid');
-  const spotXBanner = document.querySelector('.ArticleBodyBlocks__inlineArticleSpotXBanner');
+  const spotXBanner = document.querySelector(
+    '.ArticleBodyBlocks__inlineArticleSpotXBanner'
+  );
   const paywall = document.querySelector('.PopupBackdrop__block');
   removeDOMElement(spotXBanner, paywall);
   const premium = document.querySelector('.PremiumLabelWithLine__body');
@@ -52,19 +67,26 @@ if (matchDomain('elmercurio.com')) {
   if (premium && !articleBodyDone) {
     const articleBodyOld = document.querySelector('[id^=articleBody]');
     removeDOMElement(articleBodyOld);
-    const json = document.querySelector('script[type="application/ld+json"][data-react-helmet="true"]');
+    const json = document.querySelector(
+      'script[type="application/ld+json"][data-react-helmet="true"]'
+    );
     if (json) {
       const jsonText = JSON.parse(json.text).articleBody;
-      const articleBody = document.querySelector('section.TextArticlePage__bodyText');
+      const articleBody = document.querySelector(
+        'section.TextArticlePage__bodyText'
+      );
       if (articleBody) {
         const divMain = document.createElement('div');
         divMain.setAttribute('id', 'articleBody' + articleId);
         const divElem = document.createElement('div');
         divElem.setAttribute('data-element', 'articleBodyBlocks');
         const textArray = jsonText.split('\n\n');
-        textArray.forEach(pText => {
+        textArray.forEach((pText) => {
           const pDiv = document.createElement('p');
-          pDiv.setAttribute('class', 'ArticleBodyBlocks__paragraph ArticleBodyBlocks__paragraph--nieuws');
+          pDiv.setAttribute(
+            'class',
+            'ArticleBodyBlocks__paragraph ArticleBodyBlocks__paragraph--nieuws'
+          );
           pDiv.innerText = pText;
           divElem.appendChild(pDiv);
         });
@@ -74,7 +96,9 @@ if (matchDomain('elmercurio.com')) {
     }
   }
 } else if (matchDomain(['ad.nl', 'ed.nl'])) {
-  const paywall = document.querySelector('.article__component.article__component--paywall-module-notification');
+  const paywall = document.querySelector(
+    '.article__component.article__component--paywall-module-notification'
+  );
   removeDOMElement(paywall);
 } else if (matchDomain('washingtonpost.com')) {
   // Remove all elements with the id contains 'paywall'
@@ -86,34 +110,54 @@ if (matchDomain('elmercurio.com')) {
   const body = document.querySelector('body');
   body.removeAttribute('style');
   if (window.location.href.includes('/gdpr-consent/')) {
-    const freeButton = document.querySelector('.gdpr-consent-container .continue-btn.button.free');
-    if (freeButton) { freeButton.click(); }
+    const freeButton = document.querySelector(
+      '.gdpr-consent-container .continue-btn.button.free'
+    );
+    if (freeButton) {
+      freeButton.click();
+    }
 
     setTimeout(function () {
-      const gdprcheckbox = document.querySelector('.gdpr-consent-container .consent-page:not(.hide) #agree');
+      const gdprcheckbox = document.querySelector(
+        '.gdpr-consent-container .consent-page:not(.hide) #agree'
+      );
       if (gdprcheckbox) {
         gdprcheckbox.checked = true;
         gdprcheckbox.dispatchEvent(new Event('change'));
 
-        document.querySelector('.gdpr-consent-container .consent-page:not(.hide) .continue-btn.button.accept-consent').click();
+        document
+          .querySelector(
+            '.gdpr-consent-container .consent-page:not(.hide) .continue-btn.button.accept-consent'
+          )
+          .click();
       }
     }, 300); // Delay (in milliseconds)
   }
 } else if (matchDomain('wsj.com') && !matchDomain('cn.wsj.com')) {
   if (window.location.href.includes('/articles/')) {
     const closeButton = document.querySelector('div.close-btn[role="button"]');
-    if (closeButton) { closeButton.click(); }
+    if (closeButton) {
+      closeButton.click();
+    }
   }
   document.addEventListener('DOMContentLoaded', () => {
     const url = window.location.href;
     const snippet = document.querySelector('.snippet-promotion');
-    const wsjPro = document.querySelector('meta[name="page.site"][content="wsjpro"]');
+    const wsjPro = document.querySelector(
+      'meta[name="page.site"][content="wsjpro"]'
+    );
     if (snippet || wsjPro) {
       if (!window.location.hash) {
         if (url.includes('?')) {
           window.location.href = url.replace('?', '#refreshed?');
-        } else { window.location.href = url + '#refreshed'; }
-      } else { window.location.href = window.location.href.replace('wsj.com', 'wsj.com/amp').replace('#refreshed', ''); }
+        } else {
+          window.location.href = url + '#refreshed';
+        }
+      } else {
+        window.location.href = window.location.href
+          .replace('wsj.com', 'wsj.com/amp')
+          .replace('#refreshed', '');
+      }
     }
   });
 } else if (matchDomain('sloanreview.mit.edu')) {
@@ -125,7 +169,9 @@ if (matchDomain('elmercurio.com')) {
   document.addEventListener('DOMContentLoaded', () => {
     const sideNotification = document.querySelector('.pigeon-widget-prompt');
     const subMessage = document.querySelector('.sub_message_container');
-    const popup = document.querySelector('.popupally-pro-outer-full-width-7-fluid_qemskqa');
+    const popup = document.querySelector(
+      '.popupally-pro-outer-full-width-7-fluid_qemskqa'
+    );
     const bgFocusRemoverId = document.getElementById('popup-box-pro-gfcr-7');
 
     removeDOMElement(sideNotification, subMessage, popup, bgFocusRemoverId);
@@ -179,15 +225,33 @@ if (matchDomain('elmercurio.com')) {
         }
       }
     }
-    const plista = document.querySelector('div[data-plista-placement="underArticle_Group"]');
+    const plista = document.querySelector(
+      'div[data-plista-placement="underArticle_Group"]'
+    );
     removeDOMElement(plista);
   });
-} else if (matchDomain(['parool.nl', 'trouw.nl', 'volkskrant.nl', 'demorgen.be', 'humo.be'])) {
+} else if (
+  matchDomain([
+    'parool.nl',
+    'trouw.nl',
+    'volkskrant.nl',
+    'demorgen.be',
+    'humo.be',
+  ])
+) {
   document.addEventListener('DOMContentLoaded', () => {
-    const topBanner = document.querySelector('div[data-temptation-position="PAGE_TOP"]');
-    const paywall = document.querySelector('div[data-temptation-position="ARTICLE_BOTTOM"]');
-    const hiddenSection = document.querySelector('div[data-temptation-position="ARTICLE_INLINE"]');
-    const overlay = document.querySelector('div[data-temptation-position="PAGE_BOTTOM"]');
+    const topBanner = document.querySelector(
+      'div[data-temptation-position="PAGE_TOP"]'
+    );
+    const paywall = document.querySelector(
+      'div[data-temptation-position="ARTICLE_BOTTOM"]'
+    );
+    const hiddenSection = document.querySelector(
+      'div[data-temptation-position="ARTICLE_INLINE"]'
+    );
+    const overlay = document.querySelector(
+      'div[data-temptation-position="PAGE_BOTTOM"]'
+    );
     removeDOMElement(topBanner, paywall, hiddenSection, overlay);
   });
 } else if (matchDomain('firstthings.com')) {
@@ -203,11 +267,14 @@ if (matchDomain('elmercurio.com')) {
     removeDOMElement(paywall);
   });
 } else if (matchDomain('bloombergquint.com')) {
-  const articlesLeftModal = document.getElementsByClassName('paywall-meter-module__story-paywall-container__1UgCE')[0];
+  const articlesLeftModal = document.getElementsByClassName(
+    'paywall-meter-module__story-paywall-container__1UgCE'
+  )[0];
   const paywall = document.getElementById('paywallDmp');
   removeDOMElement(articlesLeftModal, paywall);
 } else if (matchDomain('medium.com')) {
-  const bottomMessageText = 'Get one more story in your member preview when you sign up. It’s free.';
+  const bottomMessageText =
+    'Get one more story in your member preview when you sign up. It’s free.';
   const DOMElementsToTextDiv = pageContains('div', bottomMessageText);
   if (DOMElementsToTextDiv[2]) removeDOMElement(DOMElementsToTextDiv[2]);
 } else if (matchDomain('theglobeandmail.com')) {
@@ -220,7 +287,11 @@ if (matchDomain('elmercurio.com')) {
       decoyArticle.classList.add('decoy-article');
       decoyArticle.hidden = true;
       realArticle.parentElement.insertBefore(decoyArticle, realArticle);
-      for (var child = realArticle.firstChild; child !== null; child = child.nextSibling) {
+      for (
+        var child = realArticle.firstChild;
+        child !== null;
+        child = child.nextSibling
+      ) {
         if (child.style) {
           child.style.display = 'block';
         }
@@ -235,7 +306,8 @@ if (matchDomain('elmercurio.com')) {
     const subscribed = document.querySelector('html.story-subscribed');
     if (subscribed && !window.location.href.includes('?ref=premium')) {
       window.setTimeout(function () {
-        window.location.href = new URL(window.location.href).pathname + '?ref=premium';
+        window.location.href =
+          new URL(window.location.href).pathname + '?ref=premium';
       }, 100);
     }
   });
@@ -247,15 +319,21 @@ if (matchDomain('elmercurio.com')) {
       aLink.href = aLink.href + '?ref=premium';
     }
   }
-} else if (matchDomain(['examiner.com.au', 'thecourier.com.au', 'theadvocate.com.au'])) {
+} else if (
+  matchDomain(['examiner.com.au', 'thecourier.com.au', 'theadvocate.com.au'])
+) {
   const subscribeTruncate = document.querySelector('.subscribe-truncate');
-  if (subscribeTruncate) { subscribeTruncate.classList.remove('subscribe-truncate'); }
+  if (subscribeTruncate) {
+    subscribeTruncate.classList.remove('subscribe-truncate');
+  }
   const subscriberHider = document.querySelectorAll('.subscriber-hider');
   for (const el of subscriberHider) {
     el.classList.remove('subscriber-hider');
   }
 } else if (matchDomain('canberratimes.com.au')) {
-  const paywall = document.querySelector('.subscribe-article.news-article-body.article__body');
+  const paywall = document.querySelector(
+    '.subscribe-article.news-article-body.article__body'
+  );
   paywall.classList.remove('subscribe-article');
   const subscribe = document.getElementsByClassName('subscriber-container')[0];
   removeDOMElement(subscribe);
@@ -281,16 +359,22 @@ if (matchDomain('elmercurio.com')) {
   });
 } else if (matchDomain('nytimes.com')) {
   const previewButton = document.querySelector('.css-3s1ce0');
-  if (previewButton) { previewButton.click(); }
+  if (previewButton) {
+    previewButton.click();
+  }
 } else if (matchDomain('technologyreview.com')) {
   // The class of banner is like 'overlayFooter__wrapper--3DhFn', which is hard to select exactly
-  const subscribeBanner = document.querySelector('[class*=overlayFooter__wrapper]');
+  const subscribeBanner = document.querySelector(
+    '[class*=overlayFooter__wrapper]'
+  );
   removeDOMElement(subscribeBanner);
   const body = document.querySelector('body');
   removeClassesByPrefix(body, 'body__obscureContent');
 } else if (matchDomain('leparisien.fr')) {
   window.removeEventListener('scroll', this.scrollListener);
-  const paywall = document.querySelector('.relative.piano-paywall.below_nav.sticky');
+  const paywall = document.querySelector(
+    '.relative.piano-paywall.below_nav.sticky'
+  );
   removeDOMElement(paywall);
   setTimeout(function () {
     const content = document.getElementsByClassName('content');
@@ -321,7 +405,9 @@ if (matchDomain('elmercurio.com')) {
   const bodyHidden = document.querySelector('.js-pre-chunks__story-body');
   bodyHidden.removeAttribute('style');
 } else if (matchDomain('the-tls.co.uk')) {
-  const paywall = document.querySelector('.tls-subscriptions-banner__closed-skin');
+  const paywall = document.querySelector(
+    '.tls-subscriptions-banner__closed-skin'
+  );
   removeDOMElement(paywall);
 } else if (matchDomain('cen.acs.org')) {
   const paywall = document.querySelector('.meteredBar');
@@ -354,7 +440,9 @@ if (matchDomain('elmercurio.com')) {
   const banner = document.querySelector('.persistent-banner');
   removeDOMElement(banner);
 } else if (matchDomain('spectator.co.uk')) {
-  const container = document.querySelector('.HardPayWallContainer-module__overlay');
+  const container = document.querySelector(
+    '.HardPayWallContainer-module__overlay'
+  );
   window.setTimeout(function () {
     if (container && window.location.href.includes('/www.spectator.co.uk/')) {
       window.location.href = window.location.href + '/amp';
@@ -365,7 +453,10 @@ if (matchDomain('elmercurio.com')) {
     const bodyContinuous = document.querySelector('body.is-continuous');
     const snippet = document.querySelector('meta[content="snippet"]');
     if (bodyContinuous && snippet) {
-      window.location.href = window.location.href.replace('barrons.com', 'barrons.com/amp');
+      window.location.href = window.location.href.replace(
+        'barrons.com',
+        'barrons.com/amp'
+      );
     }
   });
   if (!window.location.href.includes('barrons.com/amp/')) {
@@ -388,12 +479,17 @@ if (matchDomain('elmercurio.com')) {
   document.addEventListener('DOMContentLoaded', () => {
     const stubArticleMsg = document.querySelector('div.stub-article-msg');
     const url = window.location.href;
-    if (url.includes('mode=sample') || stubArticleMsg) { window.location.href = new URL(url).pathname + '?mode=amp'; }
+    if (url.includes('mode=sample') || stubArticleMsg) {
+      window.location.href = new URL(url).pathname + '?mode=amp';
+    }
   });
 } else if (matchDomain('thesaturdaypaper.com.au')) {
   const paywall = document.querySelector('div.paywall-hard-always-show');
   removeDOMElement(paywall);
-} else if (matchDomain('lesechos.fr') && window.location.href.match(/-\d{6,}/)) {
+} else if (
+  matchDomain('lesechos.fr') &&
+  window.location.href.match(/-\d{6,}/)
+) {
   window.setTimeout(function () {
     const url = window.location.href;
     const html = document.documentElement.outerHTML;
@@ -402,23 +498,34 @@ if (matchDomain('elmercurio.com')) {
     const state = split2.substr(1, split2.length - 2);
     try {
       const data = JSON.parse(state);
-      const article = data.article.data.stripes[0].mainContent[0].data.description;
+      const article =
+        data.article.data.stripes[0].mainContent[0].data.description;
       const urlLoaded = data.article.data.path;
-      if (!url.includes(urlLoaded)) { document.location.reload(true); }
+      if (!url.includes(urlLoaded)) {
+        document.location.reload(true);
+      }
       const paywallNode = document.querySelector('.post-paywall');
       if (paywallNode) {
         const contentNode = document.createElement('div');
         const parser = new DOMParser();
-        const articleHtml = parser.parseFromString('<div id="bypass">' + article + '</div>', 'text/html');
+        const articleHtml = parser.parseFromString(
+          '<div id="bypass">' + article + '</div>',
+          'text/html'
+        );
         const articlePar = articleHtml.querySelector('div#bypass');
         if (articlePar) {
           contentNode.appendChild(articlePar);
           contentNode.className = paywallNode.className;
           paywallNode.parentNode.insertBefore(contentNode, paywallNode);
           removeDOMElement(paywallNode);
-          const paywallLastChildNode = document.querySelector('.post-paywall  > :last-child');
+          const paywallLastChildNode = document.querySelector(
+            '.post-paywall  > :last-child'
+          );
           if (paywallLastChildNode) {
-            paywallLastChildNode.setAttribute('style', 'height: auto !important; overflow: hidden !important; max-height: none !important;');
+            paywallLastChildNode.setAttribute(
+              'style',
+              'height: auto !important; overflow: hidden !important; max-height: none !important;'
+            );
           }
         }
       }
@@ -467,19 +574,25 @@ if (matchDomain('elmercurio.com')) {
   });
 }
 
-function matchDomain (domains) {
+function matchDomain(domains) {
   const hostname = window.location.hostname;
-  if (typeof domains === 'string') { domains = [domains]; }
-  return domains.some(domain => hostname === domain || hostname.endsWith('.' + domain));
+  if (typeof domains === 'string') {
+    domains = [domains];
+  }
+  return domains.some(
+    (domain) => hostname === domain || hostname.endsWith('.' + domain)
+  );
 }
 
-function removeDOMElement (...elements) {
+function removeDOMElement(...elements) {
   for (const element of elements) {
-    if (element) { element.remove(); }
+    if (element) {
+      element.remove();
+    }
   }
 }
 
-function removeClassesByPrefix (el, prefix) {
+function removeClassesByPrefix(el, prefix) {
   for (const clazz of el.classList) {
     if (clazz.startsWith(prefix)) {
       el.classList.remove(clazz);
@@ -487,9 +600,16 @@ function removeClassesByPrefix (el, prefix) {
   }
 }
 
-function pageContains (selector, text) {
+function pageContains(selector, text) {
   const elements = document.querySelectorAll(selector);
   return Array.prototype.filter.call(elements, function (element) {
     return RegExp(text).test(element.textContent);
   });
+}
+
+module.exports = {
+  matchDomain,
+  removeDOMElement,
+  removeClassesByPrefix,
+  pageContains
 }
